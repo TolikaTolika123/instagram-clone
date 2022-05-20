@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { login } from '../firebase'
+import { signUp } from '../firebase';
+import { Link, useNavigate } from 'react-router-dom';
 
-const SignIn = () => {
+const SignUp = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false)
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  async function HandleLogin(e) {
+  async function HandleSignUp(e) {
     e.preventDefault();
     setLoading(true)
     try {
-      login(email, password)
+      await signUp(email, password);
       navigate('/')
     } catch (error) {
       alert('Error')
@@ -23,14 +23,16 @@ const SignIn = () => {
 
   return (
     <div>
-      <form onSubmit={HandleLogin}>
+      <form onSubmit={HandleSignUp}>
         <input type="email" value={email} onChange={e => { setEmail(e.target.value) }} />
         <input type="password" value={password} onChange={e => { setPassword(e.target.value) }} />
-        <button disabled={loading}>Sign In</button>
+        <button disabled={loading}>Sign Up</button>
       </form>
-      <p>do not have account ? <Link to='/Signup'>Sign Up</Link></p>
+      <p>
+        already have an account ? <Link to='/Login'>Sign In!</Link>
+      </p>
     </div>
   )
 }
 
-export default SignIn
+export default SignUp
