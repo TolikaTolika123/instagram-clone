@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { signUp } from '../firebase';
 import { Link, useNavigate } from 'react-router-dom';
+import instagramImg from '../images/instagram.png'
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -22,15 +23,38 @@ const SignUp = () => {
   }
 
   return (
-    <div>
-      <form onSubmit={HandleSignUp}>
-        <input type="email" value={email} onChange={e => { setEmail(e.target.value) }} />
-        <input type="password" value={password} onChange={e => { setPassword(e.target.value) }} />
-        <button disabled={loading}>Sign Up</button>
+    <div className='login'>
+      <form className='login__form' onSubmit={HandleSignUp}>
+        <img className='login__logo' src={instagramImg} alt="Instagram" />
+        <input
+          className='login__input'
+          type="email"
+          placeholder='Email adress'
+          value={email}
+          onChange={e => { setEmail(e.target.value) }}
+        />
+        <input
+          className='login__input'
+          type="text"
+          placeholder='Full name'
+        />
+        <input
+          className='login__input'
+          type="text"
+          placeholder='username'
+        />
+        <input
+          className='login__input'
+          type="password"
+          placeholder='Password'
+          value={password}
+          onChange={e => { setPassword(e.target.value) }}
+        />
+        <button className='login__button' disabled={loading || !email || password.length < 6}>Sign Up</button>
       </form>
-      <p>
-        already have an account ? <Link to='/Login'>Sign In!</Link>
-      </p>
+      <div className="login__link">
+        <p>already have an account ? <Link to='/Login'>Sign In!</Link></p>
+      </div>
     </div>
   )
 }
