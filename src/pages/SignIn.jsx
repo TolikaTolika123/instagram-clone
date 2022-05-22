@@ -14,10 +14,10 @@ const SignIn = () => {
     e.preventDefault();
     setLoading(true)
     try {
-      login(email, password)
+      await login(email, password)
       navigate('/')
     } catch (error) {
-      alert('Error')
+      alert(`Error: ${error}`)
     }
     setLoading(false)
   }

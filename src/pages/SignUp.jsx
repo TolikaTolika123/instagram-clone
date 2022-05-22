@@ -1,6 +1,12 @@
 import React, { useState } from 'react'
-import { signUp } from '../firebase';
 import { Link, useNavigate } from 'react-router-dom';
+
+import { signUp, auth } from '../firebase';
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { updateProfile } from 'firebase/auth';
+import { doc, setDoc } from "firebase/firestore";
+import { getFirestore } from 'firebase/firestore';
+
 import instagramImg from '../images/instagram.png'
 
 const SignUp = () => {
@@ -9,15 +15,28 @@ const SignUp = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [username, setUsername] = useState('')
 
   async function HandleSignUp(e) {
     e.preventDefault();
     setLoading(true)
     try {
-      await signUp(email, password);
+      await signUp(email, password)
+
+      const newImageRef = ref(getStorage(), 'images/defaultPfp.jpg');
+      const publicImageUrl = await getDownloadURL(newImageRef);
+      await updateProfile(auth.currentUser, {
+        photoURL: publicImageUrl,
+        displayName: fullName
+      })
+
+      await setDoc(doc(getFirestore(), "users", auth.currentUser.uid), {
+        username
+      });
       navigate('/')
     } catch (error) {
-      alert('Error')
+      alert(`Error: ${error}`)
     }
     setLoading(false)
   }
@@ -37,11 +56,15 @@ const SignUp = () => {
           className='login__input'
           type="text"
           placeholder='Full name'
+          value={fullName}
+          onChange={e => { setFullName(e.target.value) }}
         />
         <input
           className='login__input'
           type="text"
           placeholder='username'
+          value={username}
+          onChange={e => { setUsername(e.target.value) }}
         />
         <input
           className='login__input'
