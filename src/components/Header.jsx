@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import { logOut } from '../firebase'
 import { useNavigate } from 'react-router-dom'
+
+import { logOut, auth } from '../firebase'
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -16,8 +18,15 @@ const Header = () => {
     }
     setLoading(false)
   }
+
+  const openProfile = async () => {
+    const docRef = doc(getFirestore(), 'users', auth.currentUser.uid);
+    const docSnap = await getDoc(docRef);
+    navigate(`/profile/${docSnap.data().username}`)
+  }
   return (
     <header>
+      <button onClick={openProfile}>profile</button>
       <button disabled={loading} onClick={handleLogOut}>sign out</button>
     </header>
   )

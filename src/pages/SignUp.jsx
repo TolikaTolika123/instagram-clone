@@ -73,7 +73,12 @@ const SignUp = () => {
           value={password}
           onChange={e => { setPassword(e.target.value) }}
         />
-        <button className='login__button' disabled={loading || !email || password.length < 6}>Sign Up</button>
+        <button 
+        className='login__button' 
+        disabled={loading || !email || !fullName || !username || password.length < 6}
+        >
+          Sign Up
+        </button>
       </form>
       <div className="login__link">
         <p>already have an account ? <Link to='/Login'>Sign In!</Link></p>
