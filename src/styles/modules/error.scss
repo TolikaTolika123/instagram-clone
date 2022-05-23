@@ -1,0 +1,21 @@
+.error {
+  text-align: center;
+  padding: 40px;
+  &-title {
+    margin: 0;
+    font-weight: 500;
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+  }
+  &-subtitle {
+    margin: 0;
+    font-size: .9rem;
+    a {
+      text-decoration: none;
+      color: #3838ff;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
