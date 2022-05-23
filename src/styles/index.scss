@@ -2,14 +2,30 @@
 @import 'variables.scss';
 
 @import 'modules/login.scss';
+@import 'modules/header.scss';
+@import 'modules/navbar.scss';
 
 * {
   box-sizing: border-box;
 }
 
+:root {
+  font-size: 14px;
+}
+
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
-  font-size: 14px;
   font-weight: 400;
+  background-color: #fafafa;
+}
+
+.App {
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 975px;
+  padding: 0 20px;
+  margin: 0 auto;
 }

@@ -1,0 +1,91 @@
+.nav {
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  &__item {
+    width: 25px;
+    height: 25px;
+    & > * {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: 0;
+      background-color: transparent;
+      cursor: pointer;
+      display: block;
+      & > *:first-child {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}
+
+.header {
+  &__dropdown {
+    position: relative;
+    &.active &-content {
+      display: block;
+    }
+  }
+  &__dropdown-content {
+    display: none;
+    position: absolute;
+    right: -20px;
+    top: 40px;
+    background-color: #fff;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 5px;
+    &::before {
+      content: '';
+      display: block;
+      background-image: url('../../images/triangle.svg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      width: 20px;
+      height: 15px;
+      position: absolute;
+      right: 22px;
+      top: -15px;
+    background-color: rgba(100, 100, 111, 0.05);
+    box-shadow: rgb(100 100 111 / 20%) -2px -20px 29px 3px;
+    }
+  }
+  &__dropdown-btn {
+    img {
+      border: 1px solid black;
+      border-radius: 50%;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__dropdown-options {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #dbdbdb;
+  }
+  &__dropdown button {
+    width: 100%;
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    display: flex;
+    gap: 12px;
+    padding: 8px 16px;
+    cursor: pointer;
+    &:hover {
+      background-color: #fafafa;
+    }
+    img {
+    width: 16px;
+    height: auto;
+    }
+  }
+}
