@@ -1,6 +1,21 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword } from 'firebase/auth'
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from 'firebase/storage';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDoc,
+  updateDoc,
+  doc,
+  serverTimestamp,
+} from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -28,4 +43,45 @@ export const login = async (email, password) => {
 
 export const logOut = async () => {
   signOut(auth);
+}
+
+
+export const savePost = async (img, caption) => {
+  try {
+    // getting username
+    const usernameRef = doc(getFirestore(), 'users', auth.currentUser.uid);
+    const usernameSnap = await getDoc(usernameRef);
+
+    // 1 - We add a message with a loading icon that will get updated with the shared image.
+    const postRef = await addDoc(collection(getFirestore(), 'posts'), {
+      username: usernameSnap.data().username,
+      fullname: auth.currentUser.displayName,
+      comments: [
+        { 
+          caption, 
+          timestamp: Date.now(), 
+          username: usernameSnap.data().username 
+        }
+      ],
+      imageUrl: '',
+      profilePicUrl: auth.currentUser.photoURL,
+      timestamp: serverTimestamp()
+    });
+
+    // 2 - Upload the image to Cloud Storage.
+    const filePath = `${auth.currentUser.uid}/${postRef.id}/${img.name}`;
+    const newImageRef = ref(getStorage(), filePath);
+    const fileSnapshot = await uploadBytesResumable(newImageRef, img);
+    
+    // 3 - Generate a public URL for the file.
+    const publicImageUrl = await getDownloadURL(newImageRef);
+
+    // 4 - Update the chat message placeholder with the image's URL.
+    await updateDoc(postRef,{
+      imageUrl: publicImageUrl,
+      storageUri: fileSnapshot.metadata.fullPath
+    });
+  } catch (error) {
+    console.error('There was an error uploading a file to Cloud Storage:', error);
+  }
 }
