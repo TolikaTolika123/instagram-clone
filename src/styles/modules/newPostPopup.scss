@@ -1,0 +1,121 @@
+.newPostPopup {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(#000, 0.85);
+  display: none;
+  &.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+  }
+  &__content {
+    background-color: #fff;
+    border-radius: 15px;
+  }
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #dbdbdb;
+    padding: 10px 16px;
+  }
+  &__title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    width: 50%;
+    text-align: right;
+  }
+  &__sharePost {
+    border: 0;
+    background-color: transparent;
+    color: #0095f6;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  &__main {
+    display: flex;
+  }
+  &__img {
+    width: 750px;
+    height: 750px;
+    border-right: 1px solid #dbdbdb;
+  }
+  &__img-uploaded {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  &__img-notUploaded {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+  }
+  &__img-placeholder {
+    width: 100px;
+    height: auto;
+  }
+  &__img-upload {
+    background-color: #0095f6;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    input {
+      display: none;
+    }
+  }
+  &__options {
+    width: 340px;
+  }
+  &__options-header {
+    margin: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  &__options-username {
+    font-weight: 500;
+    font-size: 1rem;
+  }
+  &__options-img {
+    width: 28px;
+    height: 28px;
+    img {
+      border: 1px solid #B0B0B0;
+      border-radius: 50%;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__options-caption {
+    padding: 0 16px;
+    border: 0;
+    width: 100%;
+    height: 180px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1rem;
+    outline: none;
+    &::placeholder {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.1rem;
+    }
+  }
+}

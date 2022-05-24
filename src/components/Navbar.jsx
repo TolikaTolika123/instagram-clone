@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import NewPostPopup from './NewPostPopup'
 
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
@@ -15,6 +16,7 @@ const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const [pfp, setPfp] = useState('')
+  const [popup, setPopup] = useState(false)
 
   useEffect(() => {
     loadPfp()
@@ -42,7 +44,7 @@ const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
       await logOut();
       navigate('/')
     } catch (error) {
-      alert('Error')
+      alert(`Error: ${error}`)
     }
     setLoading(false)
   }
@@ -55,14 +57,14 @@ const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
           </Link>
         </li>
         <li className="nav__item">
-          <button>
+          <button onClick={() => setPopup(true)}>
             <img src={plusImg} alt="Add post" />
           </button>
         </li>
         <li className="nav__item">
           <div className={dropdownVisible ? 'header__dropdown active' : 'header__dropdown'}>
             <div className="header__dropdown-btn" onClick={toggleDropdown}>
-              <img src={pfp} alt="" />
+              <img src={pfp} alt="menu" />
             </div>
             <div className="header__dropdown-content">
               <ul className="header__dropdown-options">
@@ -84,6 +86,7 @@ const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
           </div>
         </li>
       </ul>
+      <NewPostPopup popup={popup} setPopup={setPopup} pfp={pfp}/>
     </nav>
   )
 }
