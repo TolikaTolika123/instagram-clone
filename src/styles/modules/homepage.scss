@@ -1,0 +1,120 @@
+.homepage {
+  display: flex;
+  justify-content: center;
+}
+
+.posts {
+  &__list {
+    list-style: none;
+    padding: 0;
+  }
+}
+
+.post {
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  background-color: #fff;
+  max-width: 470px;
+  &__header {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    border-bottom: 1px solid #dbdbdb;
+    padding: 8px 12px;
+  }
+  &__pfp {
+    width: 32px;
+    height: 32px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__username {
+    text-decoration: none;
+    color: #000;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  &__img {
+    width: 468px;
+    min-height: 470px;
+    max-height: 586px;
+    display: flex;
+    align-items: center;
+  }
+  &__footer {
+    padding: 6px 12px;
+  }
+  &__options {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 6px;
+  }
+  &__option:last-child {
+    margin-left: auto;
+  }
+  &__option-btn {
+    border: 0;
+    padding: 8px;
+    background-color: transparent;
+    cursor: pointer;
+    svg {
+      display: block;
+      & * {
+        stroke: #000;
+      }
+      &.hover:hover {
+        fill: #8e8e8e;
+        stroke: #8e8e8e;
+        & * {
+          stroke: #8e8e8e;
+
+        }
+      }
+    }
+  }
+  &__caption {
+    margin-bottom: 8px;
+  }
+  &__caption-username {
+    text-decoration: none;
+    font-weight: 500;
+    color: #000;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  &__caption-text {
+    display: inline;
+    font-weight: 300;
+  }
+  &__time {
+    color: #8e8e8e;
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+    display: block;
+  }
+  &__addComment {
+    display: flex;
+    border-top: 1px solid #efefef;
+    padding-top: 12px;
+    padding-bottom: 6px;
+  }
+  &__addComment-textarea {
+    flex: 1 1 0;
+    border: 0;
+    font-family: Roboto, sans-serif;
+    font-size: 1rem;
+    padding: 8px 0 0 0;
+    height: 30px;
+  }
+  &__addComment-btn {
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    color: #0095f6;
+    font-weight: 600;
+  }
+}

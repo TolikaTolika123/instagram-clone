@@ -58,13 +58,15 @@ export const savePost = async (img, caption) => {
       fullname: auth.currentUser.displayName,
       comments: [
         { 
-          caption, 
-          timestamp: Date.now(), 
+          text: caption, 
+          time: Date.now(), 
           username: usernameSnap.data().username 
         }
       ],
+      likes: [],
       imageUrl: '',
       profilePicUrl: auth.currentUser.photoURL,
+      time: Date.now(), 
       timestamp: serverTimestamp()
     });
 
