@@ -1,20 +1,10 @@
-import React, { useRef, useEffect } from 'react'
+import React, {useEffect, useRef} from 'react'
 import { Link } from 'react-router-dom'
 import { auth } from '../firebase'
 import { formatDistanceToNow } from 'date-fns'
 
 
 const Post = ({ post }) => {
-  const imgRef = useRef();
-  useEffect(() => {
-    if (imgRef.current.width >= imgRef.current.height) {
-      imgRef.current.style.width = '100%';
-      imgRef.current.style.height = 'auto';
-    } else {
-      imgRef.current.style.width = 'auto';
-      imgRef.current.style.height = '100%';
-    }
-  }, [imgRef])
 
   return (
     <li className='post'>
@@ -26,8 +16,10 @@ const Post = ({ post }) => {
           {post.username}
           </Link>
       </div>
-      <div className="post__img">
-        <img src={post.imageUrl} alt="post img" ref={imgRef} />
+      <div 
+      className="post__img"
+      style={{backgroundImage: "url(" + post.imageUrl + ")", backgroundSize:'contain', backgroundRepeat:'no-repeat', backgroundPosition:'center'}}
+      >
       </div>
       <div className="post__footer">
         <ul className="post__options">
