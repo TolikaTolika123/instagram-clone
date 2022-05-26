@@ -52,21 +52,25 @@ export const savePost = async (img, caption) => {
     const usernameRef = doc(getFirestore(), 'users', auth.currentUser.uid);
     const usernameSnap = await getDoc(usernameRef);
 
+    // getting blank image 
+    const blankImageRef = ref(getStorage(), 'images/gray.jpg');
+    const blankImageUrl = await getDownloadURL(blankImageRef);
+
     // 1 - We add a message with a loading icon that will get updated with the shared image.
     const postRef = await addDoc(collection(getFirestore(), 'posts'), {
       username: usernameSnap.data().username,
       fullname: auth.currentUser.displayName,
       comments: [
-        { 
-          text: caption, 
-          time: Date.now(), 
-          username: usernameSnap.data().username 
+        {
+          text: caption,
+          time: Date.now(),
+          username: usernameSnap.data().username
         }
       ],
       likes: [],
-      imageUrl: '',
+      imageUrl: blankImageUrl,
       profilePicUrl: auth.currentUser.photoURL,
-      time: Date.now(), 
+      time: Date.now(),
       timestamp: serverTimestamp()
     });
 
@@ -74,12 +78,12 @@ export const savePost = async (img, caption) => {
     const filePath = `${auth.currentUser.uid}/${postRef.id}/${img.name}`;
     const newImageRef = ref(getStorage(), filePath);
     const fileSnapshot = await uploadBytesResumable(newImageRef, img);
-    
+
     // 3 - Generate a public URL for the file.
     const publicImageUrl = await getDownloadURL(newImageRef);
 
     // 4 - Update the chat message placeholder with the image's URL.
-    await updateDoc(postRef,{
+    await updateDoc(postRef, {
       imageUrl: publicImageUrl,
       storageUri: fileSnapshot.metadata.fullPath
     });
