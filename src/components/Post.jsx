@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { auth } from '../firebase'
 import { formatDistanceToNow } from 'date-fns'
 import { getFirestore } from 'firebase/firestore'
@@ -8,6 +8,9 @@ import { updateDoc, getDoc, doc } from 'firebase/firestore'
 
 const Post = ({ post }) => {
   const [likes, setLikes] = useState(post.likes)
+  const [comments, setComments] = useState(post.comments)
+  const [newComment, setNewComment] = useState('')
+  const navigate = useNavigate();
 
   const toggleLike = async () => {
     const docRef = doc(getFirestore(), 'posts', post.id);
@@ -23,6 +26,36 @@ const Post = ({ post }) => {
       setLikes(localLikes)
     }
     await updateDoc(doc(getFirestore(), 'posts', post.id), { likes: localLikes })
+  }
+
+  const openPost = async () => {
+    const docRef = doc(getFirestore(), 'posts', post.id);
+    const docSnap = await getDoc(docRef);
+    navigate(`/post/${post.id}`)
+  }
+
+  const addComment = async e => {
+    e.preventDefault();
+    const postRef = doc(getFirestore(), 'posts', post.id);
+    const postSnap = await getDoc(postRef);
+
+    const userRef = doc(getFirestore(), 'users', auth.currentUser.uid);
+    const userSnap = await getDoc(userRef);
+
+    let localComments = [];
+
+    localComments = [
+      ...postSnap.data().comments,
+      { 
+        profilePicUrl: auth.currentUser.photoURL,
+        username: userSnap.data().username,
+        text: newComment,
+        time: Date.now()
+      }
+    ]
+    setComments(localComments)
+    setNewComment('')
+    await updateDoc(doc(getFirestore(), 'posts', post.id), { comments: localComments })
   }
 
   return (
@@ -60,17 +93,25 @@ const Post = ({ post }) => {
             </button>
           </li>
         </ul>
-        {likes.length ? 
+        {likes.length ?
           <p className='post__likes-count'>
             {likes.length === 1 ? '1 like' : `${likes.length} likes`}
           </p> : <p></p>}
         <div className="post__caption">
-          <Link className='post__caption-username' to={post.comments[0].username}>{post.comments[0].username} </Link>
-          <p className="post__caption-text">{post.comments[0].text}</p>
+          <Link className='post__caption-username' to={`/profile/${comments[0].username}`}>{comments[0].username} </Link>
+          <p className="post__caption-text">{comments[0].text}</p>
         </div>
-        <time className="post__time">{formatDistanceToNow(new Date(post.time))} ago</time>
-        <form className="post__addComment">
-          <textarea required style={{ resize: 'none' }} className="post__addComment-textarea" placeholder='Add a comment...'></textarea>
+        {comments.length > 1 && <p onClick={openPost} className='post__allComments'>View all {comments.length} comments</p>}
+        <time className="post__time" onClick={openPost}>{formatDistanceToNow(new Date(post.time))} ago</time>
+        <form className="post__addComment" onSubmit={addComment}>
+          <textarea
+            required
+            style={{ resize: 'none' }}
+            className="post__addComment-textarea"
+            placeholder='Add a comment...'
+            value={newComment}
+            onChange={e => setNewComment(e.target.value)}>
+          </textarea>
           <button className="post__addComment-btn">Post</button>
         </form>
       </div>

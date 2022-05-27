@@ -93,11 +93,17 @@
     display: inline;
     font-weight: 300;
   }
+  &__allComments {
+    margin: 0 0 8px;
+    cursor: pointer;
+    color: #8e8e8e;
+  }
   &__time {
     color: #8e8e8e;
     font-size: 0.8rem;
     margin-bottom: 12px;
     display: block;
+    cursor: pointer;
   }
   &__addComment {
     display: flex;
