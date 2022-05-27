@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword } from 'firebase/auth'
+import uniqid from 'uniqid'
 import {
   getStorage,
   ref,
@@ -66,7 +67,7 @@ export const savePost = async (img, caption) => {
           time: Date.now(),
           username: usernameSnap.data().username,
           profilePicUrl: auth.currentUser.photoURL,
-          
+          id: uniqid()
         }
       ],
       likes: [],

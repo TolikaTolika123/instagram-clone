@@ -1,0 +1,181 @@
+.post {
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  background-color: #fff;
+  max-width: 470px;
+  margin-bottom: 12px;
+  &__header {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    border-bottom: 1px solid #dbdbdb;
+    padding: 8px 12px;
+  }
+  &__pfp {
+    width: 32px;
+    height: 32px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__username {
+    text-decoration: none;
+    color: #000;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  &__img {
+    width: 468px;
+    min-height: 470px;
+    max-height: 586px;
+  }
+  &__footer {
+    padding: 6px 12px;
+  }
+  &__options {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 6px;
+  }
+  &__option:last-child {
+    margin-left: auto;
+  }
+  &__option-btn {
+    border: 0;
+    padding: 8px;
+    background-color: transparent;
+    cursor: pointer;
+    svg {
+      display: block;
+      & * {
+        stroke: #000;
+      }
+      &.hover:hover {
+        fill: #8e8e8e;
+        stroke: #8e8e8e;
+        & * {
+          stroke: #8e8e8e;
+
+        }
+      }
+    }
+  }
+  &__likes-count {
+    margin: 0 0 8px;
+    button {
+      border: 0;
+      background-color: transparent;
+      padding: 0;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  }
+  &__caption {
+    margin-bottom: 8px;
+  }
+  &__caption-username {
+    text-decoration: none;
+    font-weight: 500;
+    color: #000;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  &__caption-text {
+    display: inline;
+    font-weight: 300;
+  }
+  &__allComments {
+    margin: 0 0 8px;
+    cursor: pointer;
+    color: #8e8e8e;
+  }
+  &__time {
+    color: #8e8e8e;
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+    display: block;
+    cursor: pointer;
+  }
+  &__addComment {
+    display: flex;
+    border-top: 1px solid #efefef;
+    padding-top: 12px;
+    padding-bottom: 6px;
+  }
+  &__addComment-textarea {
+    flex: 1 1 0;
+    border: 0;
+    font-family: Roboto, sans-serif;
+    font-size: 1rem;
+    padding: 8px 0 0 0;
+    height: 30px;
+  }
+  &__addComment-btn {
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    color: #0095f6;
+    font-weight: 600;
+  }
+}
+
+
+.postPage {
+  &__post {
+    border: 1px solid #dbdbdb;
+    display: flex;
+  }
+  &__img {
+    width: 600px;
+    height: 600px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  &__content {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    max-height: 600px;
+  }
+  &__comments {
+    padding: 16px;
+    margin: 0;
+    list-style: none;
+    flex: 1 1 0;
+    overflow-y: auto;
+  }
+  &__comment {
+    display: flex;
+    gap: 18px;
+  }
+  &__comment-pfp {
+    width: 32px;
+    height: 32px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__comment-content {
+    padding-top: 7px;
+    max-width: 233px;
+  }
+  &__comment-text {
+    display: inline;
+  }
+  &__comment-time {
+    display: block;
+    margin-top: 12px;
+    color: #8e8e8e;
+    font-size: 0.8rem;
+  }
+  &__footer {
+    padding: 6px 12px;
+  }
+}

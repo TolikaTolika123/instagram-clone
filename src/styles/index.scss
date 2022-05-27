@@ -7,6 +7,7 @@
 @import 'modules/error.scss';
 @import 'modules/newPostPopup.scss';
 @import 'modules/homepage.scss';
+@import 'modules/post.scss';
 
 * {
   box-sizing: border-box;
@@ -28,7 +29,7 @@ body {
 }
 
 .main {
-  padding-top: 30px;
+  padding: 30px 0;
 }
 
 .container {
