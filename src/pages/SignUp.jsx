@@ -4,8 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { signUp, auth } from '../firebase';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { updateProfile } from 'firebase/auth';
-import { doc, setDoc } from "firebase/firestore";
-import { getFirestore } from 'firebase/firestore';
+import { doc, setDoc, getFirestore, collection, getDocs } from "firebase/firestore";
 
 import instagramImg from '../images/instagram.png'
 
@@ -16,25 +15,45 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
-  const [username, setUsername] = useState('')
+  const [username, setUsername] = useState('');
+  const takenUsernames = [];
+
+
+
 
   async function HandleSignUp(e) {
     e.preventDefault();
     setLoading(true)
     try {
-      await signUp(email, password)
+      // seraching for usernames
+      const querySnapshot = await getDocs(collection(getFirestore(), "users"));
 
-      const newImageRef = ref(getStorage(), 'images/defaultPfp.jpg');
-      const publicImageUrl = await getDownloadURL(newImageRef);
-      await updateProfile(auth.currentUser, {
-        photoURL: publicImageUrl,
-        displayName: fullName
-      })
-
-      await setDoc(doc(getFirestore(), "users", auth.currentUser.uid), {
-        username
+      querySnapshot.forEach((doc) => {
+        takenUsernames.push(doc.data().username)
       });
-      navigate('/')
+
+      // checking if username is no already taken
+      if (!takenUsernames.includes(username)) {
+        await signUp(email, password)
+
+        const newImageRef = ref(getStorage(), 'images/defaultPfp.jpg');
+        const publicImageUrl = await getDownloadURL(newImageRef);
+        await updateProfile(auth.currentUser, {
+          photoURL: publicImageUrl,
+          displayName: fullName
+        })
+  
+        await setDoc(doc(getFirestore(), "users", auth.currentUser.uid), {
+          username,
+          posts: [],
+          following: [],
+          followers: [],
+          saved: []
+        });
+        navigate('/')
+      } else {
+        alert('Username already taken')
+      }
     } catch (error) {
       alert(`Error: ${error}`)
     }
@@ -73,9 +92,9 @@ const SignUp = () => {
           value={password}
           onChange={e => { setPassword(e.target.value) }}
         />
-        <button 
-        className='login__button' 
-        disabled={loading || !email || !fullName || !username || password.length < 6}
+        <button
+          className='login__button'
+          disabled={loading || !email || !fullName || !username || password.length < 6}
         >
           Sign Up
         </button>

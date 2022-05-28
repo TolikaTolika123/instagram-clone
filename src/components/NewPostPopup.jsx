@@ -29,8 +29,12 @@ const NewPostPopup = ({ popup, setPopup, pfp }) => {
   }, [])
 
 
-  const handleShare = () => {
-    savePost(imageFile, caption)
+  const handleShare = async () => {
+    if (!imageFile || !caption) {
+      alert('You need to fill all field first')
+      return;
+    }
+    await savePost(imageFile, caption)
     hidePopup()
   }
 

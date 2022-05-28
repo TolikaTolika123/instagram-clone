@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { doc, getFirestore, getDoc, updateDoc } from 'firebase/firestore'
 import { auth } from '../firebase'
+import uniqid from 'uniqid'
 
 const PostNewComment = ({setComments, post}) => {
   const [newComment, setNewComment] = useState('')
@@ -21,6 +22,7 @@ const PostNewComment = ({setComments, post}) => {
         profilePicUrl: auth.currentUser.photoURL,
         username: userSnap.data().username,
         text: newComment,
+        id: uniqid(),
         time: Date.now()
       }
     ]

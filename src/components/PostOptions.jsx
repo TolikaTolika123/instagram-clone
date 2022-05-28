@@ -1,27 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { auth } from '../firebase'
 import { doc, getFirestore, getDoc, updateDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 
 const PostOptions = ({ post }) => {
   const [likes, setLikes] = useState(post.likes)
+  const [saved, setSaved] = useState([])
   const navigate = useNavigate();
 
   const openPost = async () => {
-    const docRef = doc(getFirestore(), 'posts', post.id);
-    const docSnap = await getDoc(docRef);
     navigate(`/post/${post.id}`)
   }
 
-  
-  
   const toggleLike = async () => {
-
     const docRef = doc(getFirestore(), 'posts', post.id);
     const docSnap = await getDoc(docRef);
-    
+
     let localLikes = [];
-    
+
     if (docSnap.data().likes.includes(auth.currentUser.uid)) {
       localLikes = docSnap.data().likes.filter(uid => uid !== auth.currentUser.uid)
       setLikes(localLikes)
@@ -31,6 +27,32 @@ const PostOptions = ({ post }) => {
     }
     await updateDoc(doc(getFirestore(), 'posts', post.id), { likes: localLikes })
   }
+
+  const toggleSaved = async () => {
+    const userRef = doc(getFirestore(), 'users', auth.currentUser.uid);
+    const userSnap = await getDoc(userRef);
+    
+    let localSaved = []
+
+    if (userSnap.data().saved.includes(post.id)) {
+      localSaved = userSnap.data().saved.filter(id => id !== post.id)
+      setSaved(localSaved)
+    } else if (!userSnap.data().saved.includes(post.id)) {
+      localSaved = [...userSnap.data().saved, post.id]
+      setSaved(localSaved)
+    }
+    await updateDoc(doc(getFirestore(), 'users', auth.currentUser.uid), { saved: localSaved })
+  }
+
+  useEffect(() => {
+    (async function () {
+      const userRef = doc(getFirestore(), 'users', auth.currentUser.uid);
+      const userSnap = await getDoc(userRef);
+
+      setSaved(userSnap.data().saved)
+    })()
+  }, [])
+
   return (
     <div>
       <ul className="post__options">
@@ -47,8 +69,10 @@ const PostOptions = ({ post }) => {
           </button>
         </li>
         <li className="post__option">
-          <button className='post__option-btn'>
-            <svg className='hover' aria-label="Save" height="24" role="img" viewBox="0 0 24 24" width="24"><polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></polygon></svg>
+          <button className='post__option-btn' onClick={toggleSaved}>
+            {saved?.includes(post.id)
+              ? <svg aria-label="Удалить" color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><path d="M20 22a.999.999 0 01-.687-.273L12 14.815l-7.313 6.912A1 1 0 013 21V3a1 1 0 011-1h16a1 1 0 011 1v18a1 1 0 01-1 1z"></path></svg>
+              : <svg className='hover' aria-label="Save" height="24" role="img" viewBox="0 0 24 24" width="24"><polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></polygon></svg>}
           </button>
         </li>
       </ul>
@@ -57,7 +81,7 @@ const PostOptions = ({ post }) => {
           {likes.length === 1 ? '1 like' : `${likes.length} likes`}
         </p>
         : <p className='post__likes-count'>
-           <span>Be the first to </span><button className='post__add-firstLik' onClick={toggleLike}>like this</button>
+          <span>Be the first to </span><button className='post__add-firstLik' onClick={toggleLike}>like this</button>
         </p>}
     </div>
   )

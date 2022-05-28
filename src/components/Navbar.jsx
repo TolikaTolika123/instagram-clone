@@ -11,6 +11,7 @@ import homeImg from '../images/home.svg'
 import plusImg from '../images/plus.svg'
 import profileImg from '../images/profile.svg'
 import savedImg from '../images/saved.svg'
+import defaultPfpImg from '../images/defaultPfp.jpg'
 
 const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
   const [loading, setLoading] = useState(false)
@@ -23,7 +24,7 @@ const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
   }, [])
 
   const loadPfp = async () => {
-    const pfp = auth.currentUser.photoURL;
+    const pfp = auth.currentUser.photoURL || defaultPfpImg;
     setPfp(pfp)
   }
 

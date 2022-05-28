@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { formatDistanceToNow } from 'date-fns'
-import { getFirestore } from 'firebase/firestore'
-import { getDoc, doc } from 'firebase/firestore'
 import PostOptions from './PostOptions'
 import PostNewComment from './PostNewComment'
 import PostHeader from './PostHeader'
@@ -12,8 +10,6 @@ const Post = ({ post }) => {
   const navigate = useNavigate();
 
   const openPost = async () => {
-    const docRef = doc(getFirestore(), 'posts', post.id);
-    const docSnap = await getDoc(docRef);
     navigate(`/post/${post.id}`)
   }
 

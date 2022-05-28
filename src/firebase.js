@@ -76,16 +76,19 @@ export const savePost = async (img, caption) => {
       time: Date.now(),
       timestamp: serverTimestamp()
     });
+    const postSnap = await getDoc(postRef);
+    
+    // add post to users posts
+    await updateDoc(doc(getFirestore(), 'users', auth.currentUser.uid), { posts: [...usernameSnap.data().posts,  postSnap.id] })
 
     // 2 - Upload the image to Cloud Storage.
     const filePath = `${auth.currentUser.uid}/${postRef.id}/${img.name}`;
     const newImageRef = ref(getStorage(), filePath);
     const fileSnapshot = await uploadBytesResumable(newImageRef, img);
-
     // 3 - Generate a public URL for the file.
     const publicImageUrl = await getDownloadURL(newImageRef);
 
-    // 4 - Update the chat message placeholder with the image's URL.
+    // 4 - Update the post placeholder with the image's URL.
     await updateDoc(postRef, {
       imageUrl: publicImageUrl,
       storageUri: fileSnapshot.metadata.fullPath
