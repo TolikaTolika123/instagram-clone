@@ -77,9 +77,6 @@ export const savePost = async (img, caption) => {
       timestamp: serverTimestamp()
     });
     const postSnap = await getDoc(postRef);
-    
-    // add post to users posts
-    await updateDoc(doc(getFirestore(), 'users', auth.currentUser.uid), { posts: [...usernameSnap.data().posts,  postSnap.id] })
 
     // 2 - Upload the image to Cloud Storage.
     const filePath = `${auth.currentUser.uid}/${postRef.id}/${img.name}`;
@@ -93,6 +90,10 @@ export const savePost = async (img, caption) => {
       imageUrl: publicImageUrl,
       storageUri: fileSnapshot.metadata.fullPath
     });
+
+    // add post to users posts
+    await updateDoc(doc(getFirestore(), 'users', auth.currentUser.uid), 
+    { posts: [...usernameSnap.data().posts,  postSnap.id] })
   } catch (error) {
     console.error('There was an error uploading a file to Cloud Storage:', error);
   }

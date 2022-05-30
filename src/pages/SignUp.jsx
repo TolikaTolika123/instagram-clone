@@ -45,6 +45,9 @@ const SignUp = () => {
   
         await setDoc(doc(getFirestore(), "users", auth.currentUser.uid), {
           username,
+          publicImageUrl,
+          fullName,
+          bio: '',
           posts: [],
           following: [],
           followers: [],

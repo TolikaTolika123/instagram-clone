@@ -4,7 +4,7 @@ import ProfilePosts from '../components/ProfilePosts';
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 import { useParams } from 'react-router-dom';
 
-const Profile = () => {
+const ProfileSaved = () => {
   const [user, setUser] = useState({
     followers: [],
     following: [],
@@ -34,10 +34,10 @@ const Profile = () => {
     <div className="container">
       <main className="main profile">
         <ProfileHeader user={user} />
-        <ProfilePosts user={user} active={'posts'} posts={user.posts}/>
+        <ProfilePosts user={user} active={'saved'} posts={user.saved}/>
       </main>
     </div>
   )
 }
 
-export default Profile
+export default ProfileSaved
