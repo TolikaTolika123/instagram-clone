@@ -42,7 +42,7 @@ const SignUp = () => {
           photoURL: publicImageUrl,
           displayName: fullName
         })
-  
+
         await setDoc(doc(getFirestore(), "users", auth.currentUser.uid), {
           username,
           publicImageUrl,
@@ -61,6 +61,10 @@ const SignUp = () => {
       alert(`Error: ${error}`)
     }
     setLoading(false)
+  }
+
+  const disableSpace = e => {
+    if (e.which === 32) return false;
   }
 
   return (
@@ -86,7 +90,11 @@ const SignUp = () => {
           type="text"
           placeholder='username'
           value={username}
-          onChange={e => { setUsername(e.target.value) }}
+          onChange={e => { 
+            e.target.value = e.target.value.replace(/\s/g, "");
+            setUsername(e.target.value) 
+          }}
+          onKeyDown={disableSpace}
         />
         <input
           className='login__input'
