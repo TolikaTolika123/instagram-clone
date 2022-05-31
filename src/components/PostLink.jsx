@@ -5,7 +5,6 @@ import commentIcon from '../images/comment.svg'
 import likeIcon from '../images/heart.svg'
 
 const PostLink = ({ post }) => {
-  console.log(post)
   return (
     <Link className='profile__posts-item' to={`/post/${post.id}`}>
       <img src={post.imageUrl} alt="" />

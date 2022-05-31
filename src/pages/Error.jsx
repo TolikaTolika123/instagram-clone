@@ -1,9 +1,12 @@
-import React from 'react'
+import React, {useState} from 'react'
+import Header from '../components/Header'
 import { Link } from 'react-router-dom'
 
 const Error = () => {
+  const [dropdownVisible, setDropdownVisible] = useState(false)
   return (
-    <div className='error'>
+    <div className='error' onClick={() => setDropdownVisible(false)}>
+      <Header {...{ dropdownVisible, setDropdownVisible }} />
       <div className="container">
       <h2 className="error-title">Sorry, this page isn't available.</h2>
       <p className="error-subtitle">

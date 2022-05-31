@@ -37,7 +37,7 @@ const ProfilePosts = ({ user, active, posts }) => {
           <img src={gridIcon} alt="" />
           posts
         </Link>
-        {auth.currentUser.uid === user.id
+        {auth?.currentUser?.uid === user.id
           && <Link to={`/profile/${user.username}/saved`} className='profile__posts-button saved'>
             <img src={savedIcon} alt="" />
             saved

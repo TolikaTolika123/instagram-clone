@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Post from '../components/Post'
+import Header from '../components/Header'
 
 import {
   getFirestore,
@@ -12,6 +13,7 @@ import {
 
 const Home = () => {
   const [posts, setPosts] = useState([])
+  const [dropdownVisible, setDropdownVisible] = useState(false)
 
   function loadPosts() {
     // Create the query to load the last 12 posts and listen for new ones.
@@ -48,6 +50,8 @@ const Home = () => {
 
   }, [])
   return (
+    <div className="homepage" onClick={() => setDropdownVisible(false)}>
+      <Header {...{ dropdownVisible, setDropdownVisible }} />
       <div className="container">
         <main className="homepage main">
           <ul className="posts__list">
@@ -55,6 +59,8 @@ const Home = () => {
           </ul>
         </main>
       </div>
+    </div>
+
   )
 }
 

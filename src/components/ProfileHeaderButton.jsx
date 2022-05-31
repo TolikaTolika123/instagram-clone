@@ -1,10 +1,17 @@
-import React, {useState} from 'react'
+import React, {useContext} from 'react'
 import { auth } from '../firebase'
 import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { LoginPopupContext } from '../context'
 
 const ProfileHeaderButton = ({ user, followers, setFollowers }) => {
+  const setLoginPopup = useContext(LoginPopupContext)
 
-  const follow = async () => {
+  const follow = async e => {
+    e.stopPropagation();
+    if (!auth.currentUser) {
+      setLoginPopup(true)
+      return
+    };
     const curUserRef = doc(getFirestore(), 'users', auth.currentUser.uid);
     const curUserSnap = await getDoc(curUserRef);
 
@@ -21,6 +28,7 @@ const ProfileHeaderButton = ({ user, followers, setFollowers }) => {
   }
   
   const unfollow = async () => {
+    if (!auth.currentUser) return;
     const curUserRef = doc(getFirestore(), 'users', auth.currentUser.uid);
     const curUserSnap = await getDoc(curUserRef);
 
@@ -35,16 +43,16 @@ const ProfileHeaderButton = ({ user, followers, setFollowers }) => {
     await updateDoc(doc(getFirestore(), 'users', auth.currentUser.uid), { following: localFollowing })
   }
 
-  if (auth.currentUser.uid === user.id) {
+  if (auth?.currentUser?.uid === user.id) {
     return (
       <button className='profile__content-btn edit'>Edit Profile</button>
     )
   } else {
-    if (followers.includes(auth.currentUser.uid)) {
+    if (followers.includes(auth?.currentUser?.uid)) {
       return (
         <button className='profile__content-btn unfollow' onClick={unfollow}>unfollow</button>
       )
-    } else if (!followers.includes(auth.currentUser.uid)) {
+    } else if (!followers.includes(auth?.currentUser?.uid)) {
       return (
         <button className='profile__content-btn unfollow' onClick={follow}>follow</button>
       )

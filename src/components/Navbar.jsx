@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import NewPostPopup from './NewPostPopup'
 
 import { Link } from 'react-router-dom'
@@ -12,29 +12,48 @@ import plusImg from '../images/plus.svg'
 import profileImg from '../images/profile.svg'
 import savedImg from '../images/saved.svg'
 import defaultPfpImg from '../images/defaultPfp.jpg'
+import { LoginPopupContext } from '../context'
 
 const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const [pfp, setPfp] = useState('')
   const [popup, setPopup] = useState(false)
+  const setLoginPopup = useContext(LoginPopupContext)
 
   useEffect(() => {
     loadPfp()
   }, [])
 
+  const openPopup = e => {
+    e.stopPropagation()
+    if (auth.currentUser) {
+      setPopup(true)
+    } else {
+      setLoginPopup(true)
+    }
+  }
+
   const loadPfp = async () => {
-    const pfp = auth.currentUser.photoURL || defaultPfpImg;
+    const pfp = auth?.currentUser?.photoURL || defaultPfpImg;
     setPfp(pfp)
   }
 
   const openProfile = async () => {
+    if (!auth.currentUser) {
+      setLoginPopup(true)
+      return;
+    };
     const docRef = doc(getFirestore(), 'users', auth.currentUser.uid);
     const docSnap = await getDoc(docRef);
     navigate(`/profile/${docSnap.data().username}`)
   }
 
   const openSaved = async () => {
+    if (!auth.currentUser) {
+      setLoginPopup(true)
+      return;
+    };
     const docRef = doc(getFirestore(), 'users', auth.currentUser.uid);
     const docSnap = await getDoc(docRef);
     navigate(`/profile/${docSnap.data().username}/saved`)
@@ -46,6 +65,10 @@ const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
   }
 
   const handleLogOut = async () => {
+    if (!auth.currentUser) {
+      setLoginPopup(true)
+      return;
+    };
     setLoading(true)
     try {
       await logOut();
@@ -59,12 +82,12 @@ const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
     <nav className='nav'>
       <ul className="nav__list">
         <li className="nav__item">
-          <Link to='/'>
+          <Link to={auth.currentUser ? '/' : '/home'}>
             <img src={homeImg} alt="Homepage" />
           </Link>
         </li>
         <li className="nav__item">
-          <button onClick={() => setPopup(true)}>
+          <button onClick={openPopup}>
             <img src={plusImg} alt="Add post" />
           </button>
         </li>
@@ -93,7 +116,7 @@ const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
           </div>
         </li>
       </ul>
-      <NewPostPopup popup={popup} setPopup={setPopup} pfp={pfp}/>
+      {auth.currentUser && <NewPostPopup popup={popup} setPopup={setPopup} pfp={pfp}/>}
     </nav>
   )
 }

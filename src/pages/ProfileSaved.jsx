@@ -3,8 +3,10 @@ import ProfileHeader from '../components/ProfileHeader'
 import ProfilePosts from '../components/ProfilePosts';
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 import { useParams } from 'react-router-dom';
+import Header from '../components/Header';
 
 const ProfileSaved = () => {
+  const [dropdownVisible, setDropdownVisible] = useState(false)
   const [user, setUser] = useState({
     followers: [],
     following: [],
@@ -21,7 +23,7 @@ const ProfileSaved = () => {
     const querySnapshot = await getDocs(collection(getFirestore(), "users"));
     querySnapshot.forEach((doc) => {
       if (doc.data().username === params.profile) {
-        setUser({...doc.data(), id: doc.id})
+        setUser({ ...doc.data(), id: doc.id })
       }
     });
   }
@@ -31,11 +33,14 @@ const ProfileSaved = () => {
   }, [params.profile])
 
   return (
-    <div className="container">
-      <main className="main profile">
-        <ProfileHeader user={user} />
-        <ProfilePosts user={user} active={'saved'} posts={user.saved}/>
-      </main>
+    <div className="profile" onClick={() => setDropdownVisible(false)}>
+      <Header {...{ dropdownVisible, setDropdownVisible }} />
+      <div className="container">
+        <main className="main profile">
+          <ProfileHeader user={user} />
+          <ProfilePosts user={user} active={'saved'} posts={user.saved} />
+        </main>
+      </div>
     </div>
   )
 }

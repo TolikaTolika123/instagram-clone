@@ -1,6 +1,8 @@
 .error {
-  text-align: center;
-  padding: 40px;
+  & > .container {
+    text-align: center;
+    padding: 40px;
+  }
   &-title {
     margin: 0;
     font-weight: 500;
@@ -9,7 +11,7 @@
   }
   &-subtitle {
     margin: 0;
-    font-size: .9rem;
+    font-size: 0.9rem;
     a {
       text-decoration: none;
       color: #3838ff;
