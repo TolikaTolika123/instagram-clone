@@ -47,7 +47,6 @@ const Home = () => {
     loadPosts();
 
   }, [])
-
   return (
       <div className="container">
         <main className="homepage main">

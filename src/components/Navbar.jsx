@@ -34,6 +34,12 @@ const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
     navigate(`/profile/${docSnap.data().username}`)
   }
 
+  const openSaved = async () => {
+    const docRef = doc(getFirestore(), 'users', auth.currentUser.uid);
+    const docSnap = await getDoc(docRef);
+    navigate(`/profile/${docSnap.data().username}/saved`)
+  }
+
   const toggleDropdown = e => {
     e.stopPropagation();
     setDropdownVisible(prev => !prev)
@@ -76,7 +82,7 @@ const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
                   </button>
                 </li>
                 <li className="header__dropdown-option">
-                  <button>
+                  <button onClick={openSaved}>
                     <img src={savedImg} alt="" />
                     <span>Saved</span>
                   </button>
