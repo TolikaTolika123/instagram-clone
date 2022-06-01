@@ -2,9 +2,23 @@ import React, {useContext} from 'react'
 import { auth } from '../firebase'
 import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore'
 import { LoginPopupContext } from '../context'
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const ProfileHeaderButton = ({ user, followers, setFollowers }) => {
   const setLoginPopup = useContext(LoginPopupContext)
+
+  const navigate = useNavigate()
+
+  const openProfileEdit = async () => {
+    if (!auth.currentUser) {
+      setLoginPopup(true)
+      return;
+    };
+    const docRef = doc(getFirestore(), 'users', auth.currentUser.uid);
+    const docSnap = await getDoc(docRef);
+    navigate(`/accounts/edit`)
+  }
 
   const follow = async e => {
     e.stopPropagation();
@@ -45,7 +59,7 @@ const ProfileHeaderButton = ({ user, followers, setFollowers }) => {
 
   if (auth?.currentUser?.uid === user.id) {
     return (
-      <button className='profile__content-btn edit'>Edit Profile</button>
+      <button className='profile__content-btn edit' onClick={openProfileEdit}>Edit Profile</button>
     )
   } else {
     if (followers.includes(auth?.currentUser?.uid)) {

@@ -4,6 +4,8 @@ import ProfilePosts from '../components/ProfilePosts';
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
+import { auth } from '../firebase';
+import Error from './Error';
 
 const ProfileSaved = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false)
@@ -31,6 +33,10 @@ const ProfileSaved = () => {
   useEffect(() => {
     loadUser()
   }, [params.profile])
+
+  if (user.id !== auth?.currentUser?.uid) {
+    return <Error />
+  }
 
   return (
     <div className="profile" onClick={() => setDropdownVisible(false)}>
