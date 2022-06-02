@@ -51,7 +51,9 @@ const SignUp = () => {
           posts: [],
           following: [],
           followers: [],
-          saved: []
+          saved: [],
+          number: '',
+          gender: null
         });
         navigate('/')
       } else {

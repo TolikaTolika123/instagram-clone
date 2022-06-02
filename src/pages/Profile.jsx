@@ -15,7 +15,9 @@ const Profile = () => {
     publicImageUrl: 'https://www.google.com/images/spin-32.gif?a',
     bio: '',
     username: '',
-    fullName: ''
+    fullName: '',
+    number: '',
+    gender: null
   })
   const params = useParams()
 

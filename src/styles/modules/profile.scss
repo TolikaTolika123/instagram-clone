@@ -145,19 +145,25 @@
     padding: 30px;
   }
   &__edit-form {
-    width: 355px;
   }
   &__edit-fieldset {
     display: flex;
+    justify-content: flex-end;
     gap: 30px;
     border: 0;
+    margin-bottom: 16px;
+    textarea {
+      resize: vertical;
+    }
   }
   &__edit-pfp {
     display: flex;
+    justify-content: flex-end;
     gap: 30px;
     cursor: pointer;
     color: #0095f6;
     font-weight: 500;
+    margin-bottom: 16px;
     input {
       display: none;
     }
@@ -177,5 +183,44 @@
     font-weight: 400;
     font-size: 1.4rem;
     color: #000;
+  }
+  &__edit-label {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 500;
+  }
+  &__edit-input {
+    border: 1px solid #dbdbdb;
+    padding: 7.5px 10px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.15rem;
+  }
+  &__edit-radiobutton {
+    margin-right: 100px;
+    cursor: pointer;
+  }
+  &__edit-radiocontainer {
+    display: flex;
+    align-items: center;
+    label {
+      font-size: 1.15rem;
+      margin-right: 10px;
+    }
+  }
+  &__edit-input,
+  &__edit-radiocontainer,
+  &__edit-pfp-content {
+    width: 355px;
+  }
+  &__edit-submit {
+    background-color: #0095f6;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    border: 0;
+    border-radius: 5px;
+    padding: 7.5px 10px;
+    margin-left: 150px;
   }
 }

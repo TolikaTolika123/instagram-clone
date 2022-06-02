@@ -15,8 +15,7 @@ const ProfileHeaderButton = ({ user, followers, setFollowers }) => {
       setLoginPopup(true)
       return;
     };
-    const docRef = doc(getFirestore(), 'users', auth.currentUser.uid);
-    const docSnap = await getDoc(docRef);
+    
     navigate(`/accounts/edit`)
   }
 

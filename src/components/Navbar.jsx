@@ -11,6 +11,7 @@ import homeImg from '../images/home.svg'
 import plusImg from '../images/plus.svg'
 import profileImg from '../images/profile.svg'
 import savedImg from '../images/saved.svg'
+import settingsImg from '../images/settings.svg'
 import defaultPfpImg from '../images/defaultPfp.jpg'
 import { LoginPopupContext } from '../context'
 
@@ -78,6 +79,16 @@ const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
     }
     setLoading(false)
   }
+
+  const openProfileEdit = async () => {
+    if (!auth.currentUser) {
+      setLoginPopup(true)
+      return;
+    };
+
+    navigate(`/accounts/edit`)
+  }
+
   return (
     <nav className='nav'>
       <ul className="nav__list">
@@ -108,6 +119,12 @@ const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
                   <button onClick={openSaved}>
                     <img src={savedImg} alt="" />
                     <span>Saved</span>
+                  </button>
+                </li>
+                <li className="header__dropdown-option">
+                  <button onClick={openProfileEdit}>
+                    <img src={settingsImg} alt="" />
+                    <span>Settings</span>
                   </button>
                 </li>
               </ul>

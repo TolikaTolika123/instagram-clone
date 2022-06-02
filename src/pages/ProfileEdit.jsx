@@ -14,9 +14,16 @@ const ProfileEdit = () => {
     publicImageUrl: 'https://www.google.com/images/spin-32.gif?a',
     bio: '',
     username: '',
-    fullName: ''
+    fullName: '',
+    number: '',
+    gender: null
   })
   const [newImg, setNewImg] = useState(user.publicImageUrl)
+  const [newFullName, setNewFullName] = useState(user.fullName)
+  const [newUsername, setNewUsername] = useState(user.username)
+  const [newBio, setNewBio] = useState(user.bio)
+  const [newNumber, setNewNumber] = useState(user.number)
+  const [newGender, setNewGender] = useState(user.gender)
 
   const loadUser = async user => {
     if (user) {
@@ -24,17 +31,29 @@ const ProfileEdit = () => {
       const userSnap = await getDoc(userRef);
       setUser(userSnap.data())
       setNewImg(userSnap.data().publicImageUrl)
+      setNewFullName(userSnap.data().fullName)
+      setNewUsername(userSnap.data().username)
+      setNewBio(userSnap.data().bio)
+      setNewNumber(userSnap.data().number)
+      setNewGender(userSnap.data().gender)
     }
   }
 
-  function initFirebaseAuth() {
-    onAuthStateChanged(auth, loadUser)
-  }
-
-
   useEffect(() => {
-    initFirebaseAuth()
+    onAuthStateChanged(auth, loadUser)
   }, [])
+
+  const checkForDisabled = () => {
+    if (newImg !== user.publicImageUrl
+      || newFullName !== user.fullName
+      || newUsername !== user.username
+      || newBio !== user.bio
+      || newNumber !== user.number
+      || newGender !== user.gender) {
+      return false
+    }
+    return true
+  }
 
   return (
     <div className="profile__edit" onClick={() => setDropdownVisible(false)}>
@@ -65,28 +84,68 @@ const ProfileEdit = () => {
               </label>
               <fieldset className='profile__edit-fieldset'>
                 <label className='profile__edit-label' htmlFor="name">Name</label>
-                <input className='profile__edit-input' type="text" id='name' />
+                <input
+                  className='profile__edit-input'
+                  type="text"
+                  id='name'
+                  value={newFullName}
+                  onChange={e => setNewFullName(e.target.value)}
+                />
               </fieldset>
               <fieldset className='profile__edit-fieldset'>
                 <label className='profile__edit-label' htmlFor="username">Username</label>
-                <input className='profile__edit-input' type="text" id='username' />
+                <input
+                  className='profile__edit-input'
+                  type="text"
+                  id='username'
+                  value={newUsername}
+                  onChange={e => setNewUsername(e.target.value)}
+                />
               </fieldset>
               <fieldset className='profile__edit-fieldset'>
                 <label className='profile__edit-label' htmlFor="bio">Bio</label>
-                <textarea className='profile__edit-input' type="text" id='bio'></textarea>
+                <textarea
+                  className='profile__edit-input'
+                  type="text"
+                  id='bio'
+                  value={newBio}
+                  onChange={e => setNewBio(e.target.value)}
+                ></textarea>
               </fieldset>
               <fieldset className='profile__edit-fieldset'>
                 <label className='profile__edit-label' htmlFor="phone">Phone Number</label>
-                <input className='profile__edit-input' type="number" id='phone' />
+                <input
+                  className='profile__edit-input'
+                  type="number"
+                  id='phone'
+                  value={newNumber}
+                  onChange={e => setNewNumber(e.target.value)}
+                />
               </fieldset>
               <fieldset className='profile__edit-fieldset'>
                 <p className='profile__edit-label'>Gender</p>
-                <label htmlFor="male">Male</label>
-                <input className='profile__edit-radiobutton' type="radio" id='male' name='gender'/>
-                <label htmlFor="male">Female</label>
-                <input className='profile__edit-radiobutton' type="radio" id='female' name='gender'/>
+                <div className="profile__edit-radiocontainer">
+                  <label htmlFor="male">Male</label>
+                  <input
+                    className='profile__edit-radiobutton'
+                    type="radio"
+                    id='male'
+                    name='gender'
+                    checked={newGender}
+                    onChange={e => setNewGender(true)}
+                  />
+                  <label htmlFor="male">Female</label>
+                  <input
+                    className='profile__edit-radiobutton'
+                    type="radio"
+                    id='female'
+                    name='gender'
+                    checked={newGender === false}
+                    onChange={e => setNewGender(false)}
+                  />
+                </div>
               </fieldset>
-              <button className='profile__edit-submit'>Submit</button>
+              <button className='profile__edit-submit' disabled={checkForDisabled()}>Submit</button>
             </form>
           </div>
         </main>
