@@ -11,6 +11,7 @@ import { LoginPopupContext } from './context';
 import LoginPopup from './components/LoginPopup';
 import { getAuth } from 'firebase/auth';
 import ProfileEdit from './pages/ProfileEdit';
+import ProfileSaved from './pages/ProfileSaved';
 
 function App() {
   const [loginPopup, setLoginPopup] = useState(false)
@@ -25,7 +26,8 @@ function App() {
             {currentUser
               ? <Route path='/' element={<Home />}  />
               : <Route path='/' element={<SignIn />}  />}
-            {currentUser && <Route path='/accounts/edit' element={<ProfileEdit />}  />}
+            {currentUser && <Route path='/accounts/edit/' element={<ProfileEdit />}  />}
+            {currentUser && <Route path='/profile/:profile/saved' element={<ProfileSaved />}  />}
             {routes.map(route => <Route path={route.path} element={route.component} key={uniqid()} />)}
           </Routes>
           {!currentUser && <LoginPopup loginPopup={loginPopup} setLoginPopup={setLoginPopup} />}

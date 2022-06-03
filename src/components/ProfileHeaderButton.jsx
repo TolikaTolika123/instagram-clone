@@ -16,7 +16,7 @@ const ProfileHeaderButton = ({ user, followers, setFollowers }) => {
       return;
     };
     
-    navigate(`/accounts/edit`)
+    navigate(`/accounts/edit/`)
   }
 
   const follow = async e => {

@@ -14,17 +14,18 @@ import savedImg from '../images/saved.svg'
 import settingsImg from '../images/settings.svg'
 import defaultPfpImg from '../images/defaultPfp.jpg'
 import { LoginPopupContext } from '../context'
+import { onAuthStateChanged } from 'firebase/auth'
 
 const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
-  const [pfp, setPfp] = useState('')
+  const [pfp, setPfp] = useState(defaultPfpImg)
   const [popup, setPopup] = useState(false)
   const setLoginPopup = useContext(LoginPopupContext)
 
   useEffect(() => {
-    loadPfp()
-  }, [])
+    onAuthStateChanged(auth, loadPfp)
+  }, [auth])
 
   const openPopup = e => {
     e.stopPropagation()
@@ -86,7 +87,7 @@ const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
       return;
     };
 
-    navigate(`/accounts/edit`)
+    navigate(`/accounts/edit/`)
   }
 
   return (

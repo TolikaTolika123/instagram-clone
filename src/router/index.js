@@ -11,7 +11,6 @@ export const routes = [
   { path: '/login', component: <SignIn/> },
   { path: '/home', component: <Home/> },
   { path: '/profile/:profile', component: <Profile/> },
-  { path: '/profile/:profile/saved', component: <ProfileSaved/> },
   { path: '/post/:post', component: <PostPage/> },
   { path: '/*', component: <Error/> }
 ]
