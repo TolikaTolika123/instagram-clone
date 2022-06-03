@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import ProfileHeader from '../components/ProfileHeader'
 import ProfilePosts from '../components/ProfilePosts';
-import { collection, getDocs, getFirestore } from "firebase/firestore";
-import { useParams } from 'react-router-dom';
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 import Header from '../components/Header';
 import { auth } from '../firebase';
-import Error from './Error';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const ProfileSaved = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false)
@@ -19,24 +18,20 @@ const ProfileSaved = () => {
     username: '',
     fullName: ''
   })
-  const params = useParams()
 
-  const loadUser = async () => {
-    const querySnapshot = await getDocs(collection(getFirestore(), "users"));
-    querySnapshot.forEach((doc) => {
-      if (doc.data().username === params.profile) {
-        setUser({ ...doc.data(), id: doc.id })
-      }
-    });
+  const loadUser = async user => {
+    if (user) {
+      const userRef = doc(getFirestore(), "users", auth.currentUser.uid);
+      const userSnap = await getDoc(userRef);
+      setUser({...userSnap.data(), id: auth.currentUser.uid})
+    }
   }
 
   useEffect(() => {
-    loadUser()
-  }, [params.profile])
+    onAuthStateChanged(auth, loadUser)
+  }, [])
 
-  if (user.id !== auth?.currentUser?.uid) {
-    return <Error />
-  }
+  
 
   return (
     <div className="profile" onClick={() => setDropdownVisible(false)}>
