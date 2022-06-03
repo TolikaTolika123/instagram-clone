@@ -120,6 +120,9 @@
     cursor: pointer;
     color: #0095f6;
     font-weight: 600;
+    &:disabled {
+      cursor: default;
+    }
   }
 }
 
