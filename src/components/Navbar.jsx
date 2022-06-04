@@ -25,7 +25,7 @@ const Navbar = ({ dropdownVisible, setDropdownVisible }) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, loadPfp)
-  }, [auth])
+  }, [])
 
   const openPopup = e => {
     e.stopPropagation()
