@@ -1,5 +1,5 @@
 import './styles/index.scss'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { routes } from './router';
 import uniqid from 'uniqid'
 import { useState, useEffect } from 'react';
@@ -31,7 +31,7 @@ function App() {
   return (
     <div className="App" onClick={() => setLoginPopup(false)}>
       <LoginPopupContext.Provider value={setLoginPopup} >
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             {isLoggedIn
               ? <Route path='/' element={<Home />}  />
@@ -41,7 +41,7 @@ function App() {
             {routes.map(route => <Route path={route.path} element={route.component} key={uniqid()} />)}
           </Routes>
           {!isLoggedIn && <LoginPopup loginPopup={loginPopup} setLoginPopup={setLoginPopup} />}
-        </BrowserRouter>
+        </HashRouter>
       </LoginPopupContext.Provider>
     </div>
   );

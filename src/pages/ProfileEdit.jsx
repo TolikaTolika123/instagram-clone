@@ -11,12 +11,9 @@ import {
 } from 'firebase/storage';
 import {
   getFirestore,
-  collection,
-  addDoc,
   getDoc,
   updateDoc,
   doc,
-  serverTimestamp,
 } from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth';
 
