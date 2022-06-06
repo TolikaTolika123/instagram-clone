@@ -4,8 +4,7 @@ import { doc, getFirestore, getDoc, updateDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { LoginPopupContext } from '../context'
 
-const PostOptions = ({ post }) => {
-  const [likes, setLikes] = useState(post.likes)
+const PostOptions = ({ post, likes, setLikes }) => {
   const [saved, setSaved] = useState([])
   const navigate = useNavigate();
   const setLoginPopup = useContext(LoginPopupContext)
@@ -24,7 +23,6 @@ const PostOptions = ({ post }) => {
     const docSnap = await getDoc(docRef);
 
     let localLikes = [];
-
     if (docSnap.data().likes.includes(auth.currentUser.uid)) {
       localLikes = docSnap.data().likes.filter(uid => uid !== auth.currentUser.uid)
       setLikes(localLikes)
