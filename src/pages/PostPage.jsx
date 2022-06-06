@@ -11,7 +11,7 @@ import { LoginPopupContext } from '../context';
 
 const PostPage = () => {
   const [post, setPost] = useState({})
-  const [comments, setComments] = useState(post.comments)
+  const [comments, setComments] = useState([])
   const [animation, setAnimation] = useState(false)
   const [likes, setLikes] = useState([])
   const [dropdownVisible, setDropdownVisible] = useState(false)
@@ -24,6 +24,7 @@ const PostPage = () => {
     const postSnap = await getDoc(postRef);
     setPost({ ...postSnap.data(), id: params.post })
     setLikes(postSnap.data().likes)
+    setComments(postSnap.data().comments)
   }
 
   const addLikeDblClick = async e => {
@@ -48,7 +49,7 @@ const PostPage = () => {
 
   useEffect(() => {
     loadPost();
-  }, [])
+  }, [comments.length])
 
   return (
     <div className="postPage" onClick={() => setDropdownVisible(false)}>
@@ -63,7 +64,7 @@ const PostPage = () => {
             <div className="postPage__content">
               <PostHeader post={post} />
               <ul className="postPage__comments">
-                {post.comments.map(com =>
+                {post.comments.sort((a, b) => b.time - a.time).map(com =>
                   <li className='postPage__comment' key={com.id}>
                     <Link className="postPage__comment-pfp" to={`/profile/${com.username}`}>
                       <img src={com.profilePicUrl} alt="ProfilePic" />
@@ -81,7 +82,7 @@ const PostPage = () => {
               <div className="postPage__footer">
                 <PostOptions post={post} likes={likes} setLikes={setLikes} />
                 <time className="post__time">{formatDistanceToNow(new Date(post.time))} ago</time>
-                <PostNewComment {...{ setComments, post }} />
+                <PostNewComment {...{ setComments, post }}/>
               </div>
             </div>
           </div>}
