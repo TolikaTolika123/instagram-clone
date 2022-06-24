@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import ProfileHeaderButton from './ProfileHeaderButton'
 
 const ProfileHeader = ({ user }) => {
@@ -16,12 +16,18 @@ const ProfileHeader = ({ user }) => {
       <div className="profile__content">
         <div className="profile__content-top">
           <h2 className="profile__username">{user.username}</h2>
-          <ProfileHeaderButton {...{user, followers, setFollowers}} />
+          <ProfileHeaderButton {...{ user, followers, setFollowers }} />
         </div>
         <p className="profile__stats">
-          <b className="profile__stats-num">{user.posts.length}</b> posts
-          <b className="profile__stats-num">{followers.length}</b> followers
-          <b className="profile__stats-num">{user.following.length}</b> following
+          <span className="profile__stats-item">
+            <b className="profile__stats-num">{user.posts.length}</b> posts
+          </span>
+          <span className="profile__stats-item">
+            <b className="profile__stats-num">{followers.length}</b> followers
+          </span>
+          <span className="profile__stats-item">
+            <b className="profile__stats-num">{user.following.length}</b> following
+          </span>
         </p>
         <p className="profile__fullName">{user.fullName}</p>
         <p className="profile__bio">{user.bio}</p>

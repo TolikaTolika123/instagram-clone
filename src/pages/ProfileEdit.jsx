@@ -222,7 +222,7 @@ const ProfileEdit = () => {
                 <label className='profile__edit-label' htmlFor="phone">Phone Number</label>
                 <input
                   className='profile__edit-input'
-                  type="number"
+                  type="tel"
                   id='phone'
                   value={newNumber}
                   onChange={e => setNewNumber(e.target.value)}

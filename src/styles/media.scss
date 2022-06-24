@@ -1,0 +1,131 @@
+@media (max-width: 1200px) {
+  .newPostPopup__content {
+    width: 95%;
+  }
+  .newPostPopup__img {
+    width: 69%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+  .newPostPopup__options {
+    width: auto;
+  }
+}
+
+@media (max-width: 975px) {
+  .profile__posts-item {
+    width: 200px;
+  }
+}
+
+@media (max-width: 900px) {
+  .postPage__post {
+    flex-wrap: wrap;
+    padding-top: 50px;
+    position: relative;
+  }
+  .postPage__img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+  .postPage .post__header {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .newPostPopup__main {
+    flex-wrap: wrap;
+  }
+  .newPostPopup__img {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+  }
+  .newPostPopup__options {
+    width: 100%;
+    padding-bottom: 15px;
+  }
+  .newPostPopup__options-caption {
+    height: 50px;
+  }
+  .profile__stats {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .profile__header {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+  }
+  .profile__picture {
+    margin-left: 0;
+  }
+  .profile__posts-item {
+    width: 125px;
+  }
+  .profile__posts-item-stats {
+    gap: 20px;
+  }
+  .profile__posts-item-stats > div {
+    font-size: 1rem;
+    gap: 5px;
+  }
+  .profile__posts-item-stats img {
+    width: 20px;
+    height: 20px;
+  }
+  .profile__edit-fieldset {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 530px) {
+  .header__search {
+    display: none;
+  }
+  .posts__list {
+    width: 100%;
+  }
+  .post__img {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    min-height: 0;
+  }
+  .profile__edit-inner {
+    width: 100%;
+  }
+  .profile__edit-input {
+    width: 100%;
+  }
+  .profile__edit-pfp-content {
+    width: 80%;
+  }
+  .profile__edit-form {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .newPostPopup__img-placeholder {
+    width: 85px;
+    padding: 5px 9px;
+  }
+  .profile__posts-item {
+    width: 100px;
+  }
+  .profile__posts-item-stats {
+    gap: 10px;
+  }
+  .profile__edit-pfp {
+    gap: 15px;
+  }
+  .profile__edit-radiobutton {
+    margin-right: 50px;
+  }
+}

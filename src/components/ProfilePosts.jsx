@@ -20,6 +20,13 @@ const ProfilePosts = ({ user, active, posts }) => {
       
       if (docSnap.exists()) {
         setPostsList([...postsList, {...docSnap.data(), id: postId}])
+        const post = {...docSnap.data(), id: postId};
+        if (!postsList.find(postItem => postItem.id === post.id)) {
+          console.log(post.id)
+          const prevPosts = postsList;
+          prevPosts.push(post)
+          setPostsList(structuredClone(prevPosts))
+        }
       } else {
         console.log("No such document!");
       }

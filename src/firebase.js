@@ -95,6 +95,7 @@ export const savePost = async (img, caption) => {
     // add post to users posts
     await updateDoc(doc(getFirestore(), 'users', auth.currentUser.uid), 
     { posts: [...usernameSnap.data().posts,  postSnap.id] })
+
   } catch (error) {
     console.error('There was an error uploading a file to Cloud Storage:', error);
   }

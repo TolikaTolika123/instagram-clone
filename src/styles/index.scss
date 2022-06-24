@@ -1,5 +1,4 @@
 @import 'normalize.css';
-@import 'variables.scss';
 
 @import 'modules/login.scss';
 @import 'modules/loginPopup.scss';
@@ -51,3 +50,5 @@ body {
   padding: 0 20px;
   margin: 0 auto;
 }
+
+@import 'media.scss';
